@@ -1,5 +1,5 @@
 <template>
-    <div class="part_container2" name="storage">
+    <div class="part_container" id="storage">
       <div name="title"> 
         <div name="index">04</div>
         <h1>Склад</h1>
@@ -7,36 +7,24 @@
       <div class="wrap_storage">
 
           <div class="wrap_product">
-              <div class="title_product">Биомеханизм</div>
-              <div name="price"><span class="text_price">Стоимость: <span class="price">5 монет</span></span></div>
-              <div class="counter">
-                <span name="value">{{ quantity }}</span><span> шт</span>
-              </div>
-              <div name="btn_container">
-                <button name="blue">Продать</button>
-              </div>
+              <p class="title_product">Биомеханизм</p>
+              <p name="price">Стоимость: <span class="price">{{ biomechanism.sell_coast }} монет</span></p>
+              <p class="component_count"><span name="value">{{ biomechanism.count }}</span> шт</p>
+              <div name="btn_container"><button name="blue" v-on:click="sell('biomechanism')">Продать</button></div>
           </div>
 
           <div class="wrap_product">
-              <div class="title_product">Процессор</div>
-              <div name="price"><span class="text_price">Стоимость: <span class="price">3 монет</span></span></div>
-              <div class="counter">
-                <span name="value">{{ quantity }}</span><span> шт</span>
-              </div>
-              <div name="btn_container">
-                <button name="blue">Продать</button>
-              </div>
+              <p class="title_product">Процессор</p>
+              <p name="price">Стоимость: <span class="price">{{ cpu.sell_coast }} монет</span></p>
+              <p class="component_count"><span name="value">{{ cpu.count }}</span> шт</p>
+              <div name="btn_container"><button name="blue" v-on:click="sell('cpu')">Продать</button></div>
           </div>
 
           <div class="wrap_product">    
-              <div class="title_product">Душа</div>
-              <div name="price"><span class="text_price">Стоимость: <span class="price">15 монет</span></span></div>
-              <div class="counter">
-                <span name="value">{{ quantity }}</span><span> шт</span>
-              </div>
-              <div name="btn_container">
-                <button name="blue">Продать</button>
-              </div>
+              <p class="title_product">Душа</p>
+              <p name="price">Стоимость: <span class="price">{{ soul.sell_coast }} монет</span></p>
+              <p class="component_count"><span name="value">{{ soul.count }}</span> шт</p>
+              <div name="btn_container"><button name="blue" v-on:click="sell('soul')">Продать</button></div>
           </div>
 
       </div>
@@ -45,70 +33,98 @@
 </template>
 
 <script>
+import DataStorage from '../js/global/data'
+
  export default {
-        name: 'App',
-        components: {
-        },
-        methods: {
-        },
         data () {
             return {
-                quantity: ""
+                biomechanism: {
+                    coast: 0,
+                    sell_coast: 5,
+                    count: 0
+                },
+
+                cpu: {
+                    coast: 0,
+                    sell_coast: 3,
+                    count: 0
+                },
+
+                soul: {
+                    coast: 0,
+                    sell_coast: 15,
+                    count: 0
+                },
             }
+        },
+        
+        methods: {
+            update: function (name) {
+                var getResut = DataStorage.getComponents();
+                
+                if (getResut.code != 0) {
+                    alert(getResut.message);
+                    return;
+                }
+
+                var components = getResut.data;
+                
+                this.biomechanism = components.biomechanism;
+                this.cpu = components.cpu;
+                this.soul = components.soul;
+            },
+
+            sell: function (name) {
+                var result = DataStorage.sellComponent(name);
+               
+                if(result.code != 0) {
+                    alert(result.message);
+                    return;
+                }
+            }
+        },
+
+        mounted() {
+            this.update();
+
+            DataStorage.event.buyComponent(() => {
+                this.update();
+            });
+
+             DataStorage.event.sellComponent(() => {
+                this.update();
+            });
         }
     }
 </script>
 
 <style>
-    .part_container2 {
-        padding-top: 112px;
-        margin: 0 auto;
-        max-width: 1016px;
-        position: relative;
-    }
 
-    .part_container2 [name=title] {
-        display: flex;
-        height: 40px;
-    }
-
-    .part_container2 [name=index] {
-        width: 24px;
-        line-height: 40px;
-        font-size: 12px;
-        font-family: 'Montserrat', sans-serif;
-        color: #667380;
-        font-weight: 500;
-        display: inline-block;
-    }
-
-    .part_container2 [name=title] h1 {
-        margin: 0;
-        line-height: 40px;
-        font-weight: 600;
-        font-size: 32px;
-        margin-left: 106px;
-        color: #fff;
-        display: inline-block;
-        font-family: 'Montserrat', sans-serif;
-    }
-
-    .wrap_storage {
-        margin-top: 60px;
+    #storage .wrap_storage {
+        margin: auto;
+        padding-top: 50px;
         width: 80%;
-        height: 260px;
+        height: 170px;
         margin-left: 106px;
         display: flex;
+        flex-direction: row;
     }
 
-    .wrap_product {
-        margin-left: 24px;
+    #storage .wrap_product {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
         width: 236px;
-        height: 260px;
     }
 
-    .title_product {
-        margin-top: 56px;
+    #storage p {
+        margin: 5px;
+        padding: 0px;
+        width: 100%;
+    }
+
+    #storage .title_product {
+        margin-top: 0;
         width: 200px;
         height: 32px;
         margin-left: auto;
@@ -124,19 +140,7 @@
         color: #fff;
     }
 
-    .text_price {
-        margin-left: 15%;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 24px;
-        letter-spacing: 0em;
-        text-align: center;
-        color: #A3B8CC;
-    }
-
-    .price {
+    #storage [name=price] {
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
         font-style: normal;
@@ -145,20 +149,24 @@
         letter-spacing: 0em;
         text-align: center;
         color: #A3B8CC;
+        white-space: nowrap;
     }
 
-    .wrap_product [name=price] {
-        margin-left: auto;
-        margin-right: auto;
+    #storage .component_count {
+        text-align: center;
+        color: #ffffff;
+        font-weight: 700;
     }
 
-    [name=btn_container] [name=blue] {
-        margin-top: 24px;
-        margin-right: 18px;
+    #storage [name=btn_container] {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    #storage [name=btn_container] [name=blue] {
         background: transparent;
         height: 48px;
         width: 200px;
-        padding: 12px 0 12px 0;
         border: 2px solid;  
         border: linear-gradient(90deg, #22B3E3 0%, #7CDAF9 52.6%, #22B3E3 100%);
         border-radius: 60px;
@@ -166,21 +174,24 @@
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
         font-weight: 600;
+        margin: auto;
     }
 
-    [name=btn_container] [name=blue]:hover {
+    #storage [name=btn_container] [name=blue]:hover {
         background: #7CDAF9;
+        box-shadow: 0 0 1px #22b3e3, 0 0 1px #7cdaf9, 0 8px 30px #22b3e370;
         border: 2px solid #7CDAF9;
         color: #212529;
     }
 
-    [name=btn_container] [name=blue]:active {
+    #storage [name=btn_container] [name=blue]:active {
         background: transparent;
+        box-shadow: none;
         border: 2px solid #22B3E3;
         color: #22B3E3;
     }
 
-    [name=btn_container] [name=blue]:disabled {
+    #storage [name=btn_container] [name=blue]:disabled {
         background: transparent;
         border: 2px solid #4C5865;
         color:#4C5865;

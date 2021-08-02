@@ -1,5 +1,5 @@
 <template>
-    <div class="container"> <!--контейнер 01-->
+    <div class="container" id="head"> <!--контейнер 01-->
       <div class="top_header"> <!--строка с логотипом и кнопкой-->
         <div name="logo"> <!--обертка для пакмена-->
           <div class="pacman"></div> <!--пакмен-->
@@ -16,8 +16,10 @@
         </div>
       </div>
       <div class="bottom_header"> <!--обертка для нижней части контейнера 01-->
-        <div id="index_01">01</div> <!--нумерация 01 слевой части-->
-        <div id="scroll">скролл</div> <!--текст "скролл" слевой части-->
+      <div name="markup">
+        <div name="index">01</div> <!--нумерация 01 слевой части-->
+        <div name="scroll">скролл</div> <!--текст "скролл" слевой части-->
+      </div>
         <div class="text-block"> <!--обертка для текста-->
           <h1 name="top_text">Фабрика по производству биороботов</h1>
           <h1 name="bottom_text">класса «монитор-крело»</h1>
@@ -31,112 +33,18 @@
     </div>
 </template>
 
-<script>
-export default {
-  name: 'App',
-  components: {
-    
-  }
-}
-</script>
-
 <style>
-  .container{
+  #head .container {
     margin: 0 auto;
-    max-width: 1016px;
     position: relative;
   }
 
-  .top_header {
-    margin-top: 48px;
+  #head [name=markup] {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  [name=logo] {
-    position: relative;
-    width: 100px;
-    height: 48px;
-  }
-
-  .pacman {
-    width: 48px;
-    height: 48px;
-    background-color: #FF7F22;
-    clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 50%, 50% 50%, 50% 0%);
-    border-radius: 50%;
-    transform: rotate(45deg);
-    display: inline-block;
+    flex-direction: column;
   }
   
-  .pacman_food {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-  }
-
-  .pacman_food ul {
-    position: relative;
-    margin: auto 0px;
-    display: flex;
-  }
-
-  .pacman_food ul li{
-    list-style: none;
-    width: 9px;
-    height: 9px;
-    margin-right: 5px;
-    background-color: #FF7F22;
-    border-radius: 100%;
-  }
-
-  [name=btn_container] {
-    float: right;
-  }
-
-  [name=btn_container] [name=create_biorobot] {
-    background-color: transparent;
-    height: 48px;
-    width: 236px;
-    padding: 12px 0 12px 0;
-    border: 2px solid #FF7F22;
-    box-sizing: border-box;
-    border-radius: 60px;
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  [name=btn_container] [name=create_biorobot]:hover {
-    background: #FF5722;
-    border: none;
-  }
-
-  [name=btn_container] [name=create_biorobot]:active {
-    background: #FF7F22;
-    border: 2px solid #FF7F22;
-    box-sizing: border-box;
-  }
-
-  [name=btn_container] [name=create_biorobot]:disabled {
-        background: transparent;
-        border: 2px solid #4C5865;
-        color:#4C5865;
-    }
-
-  .bottom_header {
-    margin-top: 96.69px;
-    display: flex;
-    flex-direction: row;
-  }
-
-  #index_01 {
+  #head [name=markup] [name=index] {
     width: 24px;
     height: 24px;
     line-height: 24px;
@@ -147,7 +55,7 @@ export default {
     font-weight: 500;
   }
 
-  #scroll {
+  #head [name=markup] [name=scroll] {
     width: 24px;
     height: 24px;
     line-height: 24px;
@@ -156,19 +64,108 @@ export default {
     color: #667380;
     font-weight: 500;
     transform: rotate(270deg);
-    top: 215px;
-    right: 17px;
+    top: 150px;
     position: relative;
   }
 
-  .text-block {
+  #head .top_header {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #head [name=logo] {
+    position: relative;
+    width: 100px;
+    height: 48px;
+  }
+
+  #head .pacman {
+    width: 48px;
+    height: 48px;
+    background-color: #FF7F22;
+    clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 50%, 50% 50%, 50% 0%);
+    border-radius: 50%;
+    transform: rotate(45deg);
+    display: inline-block;
+  }
+  
+  #head .pacman_food {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+
+  #head .pacman_food ul {
+    position: relative;
+    margin: auto 0px;
+    display: flex;
+  }
+
+  #head .pacman_food ul li{
+    list-style: none;
+    width: 9px;
+    height: 9px;
+    margin-right: 5px;
+    background-color: #FF7F22;
+    border-radius: 100%;
+  }
+
+  #head [name=btn_container] {
+    float: right;
+    margin: 0 !important;
+  }
+
+  #head [name=btn_container] [name=create_biorobot] {
+    background-color: transparent;
+    height: 48px;
+    width: 236px;
+    border: 2px solid #FF7F22;
+    box-sizing: border-box;
+    border-radius: 60px;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  #head [name=btn_container] [name=create_biorobot]:hover {
+    background: #FF5722;
+    border: none;
+  }
+
+  #head [name=btn_container] [name=create_biorobot]:active {
+    background: #FF7F22;
+    border: 2px solid #FF7F22;
+    box-sizing: border-box;
+  }
+
+  #head [name=btn_container] [name=create_biorobot]:disabled {
+        background: transparent;
+        border: 2px solid #4C5865;
+        color:#4C5865;
+    }
+
+  #head .bottom_header {
+    margin-top: 96.69px;
+    display: flex;
+    flex-direction: row;
+  }
+
+
+  #head .text-block {
     margin-top: 23.31px;
     margin-left: 96px;
     width: 470px;
     height: 216px;
   }
 
-  .text-block [name=top_text]{
+  #head .text-block [name=top_text]{
     margin: 0px;
     color: #fff;
     font-size: 56px;
@@ -176,7 +173,7 @@ export default {
     font-family: 'Montserrat', sans-serif;
   }
 
-  .text-block [name=bottom_text]{
+  #head .text-block [name=bottom_text]{
     margin-top: 23px;
     color: #A3B8CC;
     font-size: 24px;
@@ -184,8 +181,8 @@ export default {
     font-family: 'Montserrat', sans-serif;
   }
 
-  .wrap{
-    width: 100%;
+  #head .wrap{
+    width: 50%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -194,7 +191,7 @@ export default {
     height:300px;
   }
 
-  .wrap [name=img_1]{
+  #head .wrap [name=img_1]{
     position: absolute;
     top:50%;
     left: 35%;
@@ -204,7 +201,7 @@ export default {
     object-fit:cover;
   }
 
-  [name=ellips] {
+  #head [name=ellips] {
     width: 275px;
     height: 275px;
     background-color: #1E2936;
@@ -212,7 +209,7 @@ export default {
     margin-left: 120px;
   }
 
-  .wrap [name=img_2]{
+  #head .wrap [name=img_2]{
     position: absolute;
     top:15%;
     left:53%;

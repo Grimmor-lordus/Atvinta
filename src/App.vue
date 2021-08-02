@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <LVL_1 />
-    <LVL_2 />
-    <LVL_3 />
-    <LVL_4 />
-    <LVL_5 />
+    <div name="content_container">
+      <LVL_1 />
+      <LVL_2 />
+      <LVL_3 />
+      <LVL_4 />
+      <LVL_5 />
+    </div>
   </div>
 </template>
 
@@ -30,7 +32,7 @@
 </script>
 
 <style>
-  body{
+  body {
     margin: 0;
     padding: 0;
     background: rgb(38,57,77);
@@ -45,5 +47,41 @@
 
   #app {
     position: relative;
+  }
+
+  #app [name=content_container] {
+    /* max-width: 80%; */
+    max-width: 1016px;
+    margin: auto;
+  }
+  
+  #app .part_container {
+    margin-top: 40px;
+  }
+
+  #app .part_container [name=title] {
+    display: flex;
+    height: 40px;
+  }
+
+  #app .part_container [name=index] {
+    width: 24px;
+    line-height: 40px;
+    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
+    color: #667380;
+    font-weight: 500;
+    display: inline-block;
+  }
+
+  #app .part_container [name=title] h1 {
+    margin: 0;
+    line-height: 40px;
+    font-weight: 600;
+    font-size: 32px;
+    margin-left: 106px;
+    color: #fff;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
   }
 </style>

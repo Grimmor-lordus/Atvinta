@@ -1,5 +1,5 @@
 <template>
-    <div class="part_container2" name="market">
+    <div class="part_container" id="market">
       <div name="title"> 
         <div name="index">03</div>
         <h1>Рынок комплектующих</h1>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import DataStorage from'../js/global/data'
+import DataStorage from '../js/global/data'
 
     export default {
         data () {
@@ -83,54 +83,30 @@ import DataStorage from'../js/global/data'
 </script>
 
 <style>
-    .part_container2 {
-        padding-top: 100px;
+    #market .part_container2 {
+        margin-top: 100px !important;
+        height: 400px;
         margin: 0 auto;
-        max-width: 1016px;
         position: relative;
     }
 
-    .part_container2 [name=title] {
+    #market .wrap_market {
         display: flex;
-        height: 40px;
-    }
-
-    .part_container2 [name=index] {
-        width: 24px;
-        line-height: 40px;
-        font-size: 12px;
-        font-family: 'Montserrat', sans-serif;
-        color: #667380;
-        font-weight: 500;
-        display: inline-block;
-    }
-
-    .part_container2 [name=title] h1 {
-        margin: 0;
-        line-height: 40px;
-        font-weight: 600;
-        font-size: 32px;
-        margin-left: 106px;
-        color: #fff;
-        display: inline-block;
-        font-family: 'Montserrat', sans-serif;
-    }
-
-    .wrap_market {
-        margin-top: 90px;
+        flex-direction: row;
         width: 80%;
-        height: 260px;
-        margin-left: 106px;
+        margin: auto;
+        padding-top: 50px;
+    }
+
+    #market .wrap_product {
         display: flex;
-    }
-
-    .wrap_product {
-        margin-left: 24px;
+        flex-direction: column;
+        margin: auto;
         width: 236px;
-        height: 260px;
     }
 
-    .wrap_product [name=img_bio] {
+    #market .wrap_product [name=img_bio] {
+        filter: drop-shadow(0 0 30px #FF7F22);
         width: 88px;
         height: 88px;
         margin-left: auto;
@@ -138,16 +114,7 @@ import DataStorage from'../js/global/data'
         display: flex;
     }
 
-    .wrap_product [name=img_bio] [name=face] {
-        width: 55.88px;
-        height: 54px;
-        margin-top: 22px;
-        margin-left: 17px;
-        position: absolute;
-    }
-
-    .title_product {
-        margin-top: 56px;
+    #market .title_product {
         width: 200px;
         height: 32px;
         margin-left: auto;
@@ -163,9 +130,27 @@ import DataStorage from'../js/global/data'
         color: #fff;
     }
 
-    .text_price {
-        margin-left: 15%;
-        font-family: 'Montserrat', sans-serif;
+    #market .wrap_product [name=img_bio] [name=face] {
+        width: 55.88px;
+        height: 54px;
+        margin-top: 22px;
+        margin-left: 17px;
+        position: absolute;
+    }
+
+    #market [name=price] {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #A3B8CC;
+        white-space: nowrap;
+        margin: 10px 0px;
+    }
+
+    #market .text_price {
         font-size: 16px;
         font-style: normal;
         font-weight: 500;
@@ -173,49 +158,40 @@ import DataStorage from'../js/global/data'
         letter-spacing: 0em;
         text-align: center;
         color: #A3B8CC;
+        white-space: nowrap;
+        margin: 0;
     }
 
-    .price {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 24px;
-        letter-spacing: 0em;
-        text-align: center;
-        color: #A3B8CC;
+    #market [name=btn_container] {
+        display: flex;
+        width: 100%;
     }
 
-    .wrap_product [name=price] {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    [name=btn_container] [name=install] {
-        margin-top: 24px;
-        margin-right: 18px;
+    #market [name=btn_container] [name=install] {
+        margin: 10px auto;
         background: linear-gradient(180deg, #FF7F22 0%, #FF5722 100%);
         height: 48px;
         width: 200px;
-        padding: 12px 0 12px 0;
-        border: 2px solid #FF7F22;
+        border: none;
+        box-shadow: 0 6px 10px #0000003b;
         box-sizing: border-box;
         border-radius: 60px;
         color: #fff;
-        font-family: 'Montserrat', sans-serif;
         font-size: 16px;
         font-weight: 600;
     }
 
-    [name=btn_container] [name=install]:hover {
+    #market [name=btn_container] [name=install]:hover {
+        box-shadow: none;
         background: linear-gradient(0deg, #FF5722, #FF5722);
     }
 
-    [name=btn_container] [name=install]:active {
+    #market [name=btn_container] [name=install]:active {
+        box-shadow: none;
         background: #FF7F22;
     }
 
-    [name=btn_container] [name=install]:disabled {
+    #market [name=btn_container] [name=install]:disabled {
         background: #4C5865;
         border: 2px solid #4C5865;
         color: #7D90A6;
