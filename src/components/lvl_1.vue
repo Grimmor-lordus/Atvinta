@@ -160,7 +160,7 @@
 
   #head .text-block {
     margin-top: 23.31px;
-    margin-left: 96px;
+    margin-left: 106px;
     width: 470px;
     height: 216px;
   }

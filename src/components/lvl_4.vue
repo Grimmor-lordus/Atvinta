@@ -102,7 +102,7 @@ import DataStorage from '../js/global/data'
 
     #storage .wrap_storage {
         margin: auto;
-        padding-top: 50px;
+        padding-top: 60px;
         width: 80%;
         height: 170px;
         margin-left: 106px;
@@ -113,7 +113,7 @@ import DataStorage from '../js/global/data'
     #storage .wrap_product {
         display: flex;
         flex-direction: column;
-        margin: auto;
+        margin: 0 auto 0 auto;
         width: 236px;
     }
 
@@ -124,7 +124,7 @@ import DataStorage from '../js/global/data'
     }
 
     #storage .title_product {
-        margin-top: 0;
+        margin: 0;
         width: 200px;
         height: 32px;
         margin-left: auto;
@@ -150,17 +150,18 @@ import DataStorage from '../js/global/data'
         text-align: center;
         color: #A3B8CC;
         white-space: nowrap;
+        margin: 0 auto 0 auto;
     }
 
     #storage .component_count {
         text-align: center;
         color: #ffffff;
         font-weight: 700;
+        margin: 15px auto 24px auto;
     }
 
     #storage [name=btn_container] {
         display: flex;
-        margin-top: 10px;
     }
 
     #storage [name=btn_container] [name=blue] {

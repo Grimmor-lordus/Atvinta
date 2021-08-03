@@ -50,13 +50,13 @@
   }
 
   #app [name=content_container] {
-    /* max-width: 80%; */
     max-width: 1016px;
     margin: auto;
   }
   
   #app .part_container {
-    margin-top: 40px;
+    padding: 0;
+    margin-top: 100px;
   }
 
   #app .part_container [name=title] {

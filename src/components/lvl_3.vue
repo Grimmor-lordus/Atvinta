@@ -7,7 +7,7 @@
       <div class="wrap_market">
 
           <div class="wrap_product" id="biomechanism">
-              <div name="img_bio"><img src="img\\Subtract.svg" alt=""></div>
+              <div name="img_bio"><img src="img\\bio_a.svg" alt=""></div>
               <div class="title_product">Биомеханизм</div>
               <div name="price"><span class="text_price">Стоимость: <span class="price">{{ biomechanism }} монет</span></span></div>
               <div name="btn_container">
@@ -16,7 +16,7 @@
           </div>
 
           <div class="wrap_product" id="cpu">
-              <div name="img_bio"><img src="img\\Vector.svg" alt=""></div>
+              <div name="img_bio"><img src="img\\cpu_a.svg" alt=""></div>
               <div class="title_product">Процессор</div>
               <div name="price"><span class="text_price">Стоимость: <span class="price">{{ cpu }} монет</span></span></div>
               <div name="btn_container">
@@ -25,7 +25,7 @@
           </div>
 
           <div class="wrap_product" id="soul">
-              <div name="img_bio"><img src="img\\Ellipse 5.svg" alt=""><img name="face" src="img\\Group 16.svg" alt=""></div>
+              <div name="img_bio"><img name="ellips" src="img\\Ellipse 5.svg" alt=""><img name="face" src="img\\soul_a.svg" alt=""></div>
               <div class="title_product">Душа</div>
               <div name="price"><span class="text_price">Стоимость: <span class="price">{{ soul }} монет</span></span></div>
               <div name="btn_container">
@@ -95,7 +95,7 @@ import DataStorage from '../js/global/data'
         flex-direction: row;
         width: 80%;
         margin: auto;
-        padding-top: 50px;
+        padding-top: 90px;
     }
 
     #market .wrap_product {
@@ -130,11 +130,23 @@ import DataStorage from '../js/global/data'
         color: #fff;
     }
 
+    #market .wrap_product [name=img_bio] {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 49px;
+    }
+
+    #market .wrap_product [name=img_bio] [name=ellips] {
+        width: 80px;
+        height: 80px;
+        position: absolute;
+    }
+
     #market .wrap_product [name=img_bio] [name=face] {
         width: 55.88px;
         height: 54px;
-        margin-top: 22px;
-        margin-left: 17px;
+        margin-top: 18px;
+        margin-left: 10px;
         position: absolute;
     }
 
@@ -147,7 +159,7 @@ import DataStorage from '../js/global/data'
         text-align: center;
         color: #A3B8CC;
         white-space: nowrap;
-        margin: 10px 0px;
+        margin: 5px 0px;
     }
 
     #market .text_price {
@@ -168,7 +180,7 @@ import DataStorage from '../js/global/data'
     }
 
     #market [name=btn_container] [name=install] {
-        margin: 10px auto;
+        margin: 19px auto;
         background: linear-gradient(180deg, #FF7F22 0%, #FF5722 100%);
         height: 48px;
         width: 200px;

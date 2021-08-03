@@ -1,5 +1,5 @@
 <template>
-    <div class="part_container" id="wallet">
+  <div class="part_container" id="wallet">
     <div name="title"> 
       <div name="index">02</div>
       <h1>Кошелёк криптовалют</h1>
@@ -132,7 +132,6 @@ export default {
   #wallet .counter span[name=value] {
     font-weight: bold;
     margin-right: 5px;
-    margin-left: 11px;
   }
   
   #wallet .click_add {
