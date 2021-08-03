@@ -28,14 +28,19 @@
           </div>
 
       </div>
+      <Message />
     </div>
     
 </template>
 
 <script>
 import DataStorage from '../js/global/data'
+import Message from '../components/ErrorMessage.vue'
 
  export default {
+        components: {
+            Message
+        },
         data () {
             return {
                 biomechanism: {
@@ -63,7 +68,7 @@ import DataStorage from '../js/global/data'
                 var getResut = DataStorage.getComponents();
                 
                 if (getResut.code != 0) {
-                    alert(getResut.message);
+                    Message.methods.show(getResut.message, "Ошибка");
                     return;
                 }
 
@@ -78,7 +83,7 @@ import DataStorage from '../js/global/data'
                 var result = DataStorage.sellComponent(name);
                
                 if(result.code != 0) {
-                    alert(result.message);
+                    Message.methods.show(result.message, "Ошибка");
                     return;
                 }
             }

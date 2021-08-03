@@ -20,14 +20,18 @@
           </label>
       </div>
     </div>
+    <Message />
   </div>
 </template>
 
 <script>
 import DataStorage from '../js/global/data'
+import Message from '../components/ErrorMessage.vue'
 
 export default {
-  name: 'App',
+  components: {
+    Message
+  },
   data () {
     return {
       count: Number(DataStorage.getData("coins")) || 0,
@@ -41,6 +45,7 @@ export default {
         
         for (var i=0; i < increment; i++) {
           if (this.count >= 100) {
+            Message.methods.show("Вы не можете нацыганить более 100 монет biorobo", "Количество монет ограничено", "img\\coin.svg");
             break;
           }
 
@@ -77,7 +82,7 @@ export default {
       DataStorage.event.buyComponent(() => {
         this.updateCoins();
       });
-
+    
       DataStorage.event.sellComponent(() => {
           this.updateCoins();
       });
