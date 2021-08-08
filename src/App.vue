@@ -6,6 +6,7 @@
       <LVL_3 />
       <LVL_4 />
       <LVL_5 />
+      <ErrorMessage :showMessage="messageData"/>
     </div>
   </div>
 </template>
@@ -17,27 +18,54 @@
   import LVL_3 from './components/lvl_3.vue'
   import LVL_4 from './components/lvl_4.vue'
   import LVL_5 from './components/lvl_5.vue'
+  import ErrorMessage from './components/ErrorMessage.vue'
+  import {mapActions} from "vuex";
 
   export default {
     name: 'App',
+
+    data() {
+      return {
+        messageData: {},
+      }
+    },
+
     components: {
       LVL_1,
       LVL_2,
       LVL_3,
       LVL_4,
-      LVL_5
+      LVL_5,
+      ErrorMessage,
+    },
+
+    methods: {
+      ...mapActions(['loadUserData', 'loadComponentsData']),
+
+      showMessage: function (message, title, icon) {
+        this.messageData = {
+          message: message,
+          title: title,
+          icon: icon
+        }
+      }
+    },
+    mounted() {
+      this.loadUserData();
+      this.loadComponentsData();
+      this.$on('showMessage', this.showMessage);
     }
   }
 
 </script>
 
-<style>
+<style lang="scss">
   body {
     margin: 0;
     padding: 0;
     background: rgb(38,57,77);
     background: radial-gradient(circle, rgba(38,57,77,1) 0%, rgba(33,37,41,1) 100%);
-    font-family: 'Montserrat', sans-serif;
+    font-family: $font;
   } 
 
   body button {
@@ -68,7 +96,7 @@
     width: 24px;
     line-height: 40px;
     font-size: 12px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: $font;
     color: #667380;
     font-weight: 500;
     display: inline-block;
@@ -82,6 +110,6 @@
     margin-left: 106px;
     color: #fff;
     display: inline-block;
-    font-family: 'Montserrat', sans-serif;
+    font-family: $font;
   }
 </style>

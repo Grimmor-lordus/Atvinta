@@ -1,205 +1,186 @@
 <template>
-    <div class="part_container" id="storage">
-      <div name="title"> 
-        <div name="index">04</div>
-        <h1>Склад</h1>
-      </div>
-      <div class="wrap_storage">
+	<div class="part_container" id="storage">
+	  <div name="title"> 
+		<div name="index">04</div>
+		<h1>Склад</h1>
+	  </div>
+	  <div class="wrap_storage">
 
-          <div class="wrap_product">
-              <p class="title_product">Биомеханизм</p>
-              <p name="price">Стоимость: <span class="price">{{ biomechanism.sell_coast }} монет</span></p>
-              <p class="component_count"><span name="value">{{ biomechanism.count }}</span> шт</p>
-              <div name="btn_container"><button name="blue" v-on:click="sell('biomechanism')">Продать</button></div>
-          </div>
+		  <div class="wrap_product">
+			  <p class="title_product">Биомеханизм</p>
+			  <p name="price">Стоимость: <span class="price">{{ getComponents.biomechanism.sell_coast }} монет</span></p>
+			  <p class="component_count"><span name="value">{{ getUserComponents.biomechanism.count - getUserComponents.biomechanism.in_process.count }}</span> шт</p>
+			  <div name="btn_container"><button name="blue" v-on:click="sell('biomechanism')">Продать</button></div>
+		  </div>
 
-          <div class="wrap_product">
-              <p class="title_product">Процессор</p>
-              <p name="price">Стоимость: <span class="price">{{ cpu.sell_coast }} монет</span></p>
-              <p class="component_count"><span name="value">{{ cpu.count }}</span> шт</p>
-              <div name="btn_container"><button name="blue" v-on:click="sell('cpu')">Продать</button></div>
-          </div>
+		  <div class="wrap_product">
+			  <p class="title_product">Процессор</p>
+			  <p name="price">Стоимость: <span class="price">{{ getComponents.cpu.sell_coast }} монет</span></p>
+			  <p class="component_count"><span name="value">{{ getUserComponents.cpu.count - getUserComponents.cpu.in_process.count  }}</span> шт</p>
+			  <div name="btn_container"><button name="blue" v-on:click="sell('cpu')">Продать</button></div>
+		  </div>
 
-          <div class="wrap_product">    
-              <p class="title_product">Душа</p>
-              <p name="price">Стоимость: <span class="price">{{ soul.sell_coast }} монет</span></p>
-              <p class="component_count"><span name="value">{{ soul.count }}</span> шт</p>
-              <div name="btn_container"><button name="blue" v-on:click="sell('soul')">Продать</button></div>
-          </div>
+		  <div class="wrap_product">    
+			  <p class="title_product">Душа</p>
+			  <p name="price">Стоимость: <span class="price">{{ getComponents.soul.sell_coast }} монет</span></p>
+			  <p class="component_count"><span name="value">{{ getUserComponents.soul.count - getUserComponents.soul.in_process.count  }}</span> шт</p>
+			  <div name="btn_container"><button name="blue" v-on:click="sell('soul')">Продать</button></div>
+		  </div>
 
-      </div>
-      <Message />
-    </div>
-    
+	  </div>
+	</div>
+	
 </template>
 
 <script>
-import DataStorage from '../js/global/data'
-import Message from '../components/ErrorMessage.vue'
+import {mapGetters, mapMutations, mapActions} from "vuex";
 
  export default {
-        components: {
-            Message
-        },
-        data () {
-            return {
-                biomechanism: {
-                    coast: 0,
-                    sell_coast: 5,
-                    count: 0
-                },
+		computed: mapGetters(['getCoins', 'getUserComponents', 'getComponents']),
 
-                cpu: {
-                    coast: 0,
-                    sell_coast: 3,
-                    count: 0
-                },
+		methods: {
+			...mapMutations(['setCoins', 'setUserComponents']),
 
-                soul: {
-                    coast: 0,
-                    sell_coast: 15,
-                    count: 0
-                },
-            }
-        },
-        
-        methods: {
-            update: function (name) {
-                var getResut = DataStorage.getComponents();
-                
-                if (getResut.code != 0) {
-                    Message.methods.show(getResut.message, "Ошибка");
-                    return;
-                }
+			sell: function (name) {
+				 let componentInfo = this.getComponents[name],
+					userComponents = this.getUserComponents;
 
-                var components = getResut.data;
-                
-                this.biomechanism = components.biomechanism;
-                this.cpu = components.cpu;
-                this.soul = components.soul;
-            },
+				let userComponent = userComponents[name],
+					coins = this.getCoins;
 
-            sell: function (name) {
-                var result = DataStorage.sellComponent(name);
-               
-                if(result.code != 0) {
-                    Message.methods.show(result.message, "Ошибка");
-                    return;
-                }
-            }
-        },
+				if (!componentInfo) {
+					this.$parent.$emit('showMessage', "Не найден компонент с названием - " + name, "Ошибка");
+					return;
+				}
 
-        mounted() {
-            this.update();
+				if (!userComponent) {
+					this.$parent.$emit('showMessage', "У пользователя не найден компонент с идентификатором - " + name, "Ошибка");
+					return;
+				}
 
-            DataStorage.event.buyComponent(() => {
-                this.update();
-            });
+				if (userComponent.count <= 0) {
+					this.$parent.$emit('showMessage', `Не достаточно компонента "${componentInfo.name}", для продажи `, "Ошибка");
+					return;
+				}
 
-             DataStorage.event.sellComponent(() => {
-                this.update();
-            });
-        }
-    }
+				userComponent.count -= 1;
+				coins += componentInfo.sell_coast;
+
+				if (coins >= 100) {
+					this.$parent.$emit('showMessage', `Количество монет ограничено! Вы не можете иметь больше 100 монет`, "Ошибка");
+					return;
+				}
+
+				userComponents[name] = userComponent;
+
+				this.setUserComponents(userComponents);
+				this.setCoins(coins);
+			}
+		},
+
+		mounted() {
+			
+		}
+	}
 </script>
 
-<style>
+<style lang='scss' scoped>
 
-    #storage .wrap_storage {
-        margin: auto;
-        padding-top: 60px;
-        width: 80%;
-        height: 170px;
-        margin-left: 106px;
-        display: flex;
-        flex-direction: row;
-    }
+	.wrap_storage {
+		margin: auto;
+		padding-top: 60px;
+		width: 80%;
+		height: 170px;
+		margin-left: 106px;
+		display: flex;
+		flex-direction: row;
+	}
 
-    #storage .wrap_product {
-        display: flex;
-        flex-direction: column;
-        margin: 0 auto 0 auto;
-        width: 236px;
-    }
+	.wrap_product {
+		display: flex;
+		flex-direction: column;
+		margin: 0 auto 0 auto;
+		width: 236px;
+	}
 
-    #storage p {
-        margin: 5px;
-        padding: 0px;
-        width: 100%;
-    }
+	p {
+		margin: 5px;
+		padding: 0px;
+		width: 100%;
+	}
 
-    #storage .title_product {
-        margin: 0;
-        width: 200px;
-        height: 32px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 32px;
-        letter-spacing: 0em;
-        text-align: center;
-        color: #fff;
-    }
+	.title_product {
+		margin: 0;
+		width: 200px;
+		height: 32px;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+		font-family: $font;
+		font-size: 20px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 32px;
+		letter-spacing: 0em;
+		text-align: center;
+		color: #fff;
+	}
 
-    #storage [name=price] {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 24px;
-        letter-spacing: 0em;
-        text-align: center;
-        color: #A3B8CC;
-        white-space: nowrap;
-        margin: 0 auto 0 auto;
-    }
+	.wrap_product [name=price] {
+		font-family: $font;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 24px;
+		letter-spacing: 0em;
+		text-align: center;
+		color: #A3B8CC;
+		white-space: nowrap;
+		margin: 0 auto 0 auto;
+	}
 
-    #storage .component_count {
-        text-align: center;
-        color: #ffffff;
-        font-weight: 700;
-        margin: 15px auto 24px auto;
-    }
+	.component_count {
+		text-align: center;
+		color: #ffffff;
+		font-weight: 700;
+		margin: 15px auto 24px auto;
+	}
 
-    #storage [name=btn_container] {
-        display: flex;
-    }
+	.wrap_product [name=btn_container] {
+		display: flex;
+	}
 
-    #storage [name=btn_container] [name=blue] {
-        background: transparent;
-        height: 48px;
-        width: 200px;
-        border: 2px solid;  
-        border: linear-gradient(90deg, #22B3E3 0%, #7CDAF9 52.6%, #22B3E3 100%);
-        border-radius: 60px;
-        color: #7CDAF9;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 16px;
-        font-weight: 600;
-        margin: auto;
-    }
+	.wrap_product [name=btn_container] [name=blue] {
+		background: transparent;
+		height: 48px;
+		width: 200px;
+		border: 2px solid;  
+		border: $blueGradient;
+		border-radius: 60px;
+		color: $blue;
+		font-family: $font;
+		font-size: 16px;
+		font-weight: 600;
+		margin: auto;
+	}
 
-    #storage [name=btn_container] [name=blue]:hover {
-        background: #7CDAF9;
-        box-shadow: 0 0 1px #22b3e3, 0 0 1px #7cdaf9, 0 8px 30px #22b3e370;
-        border: 2px solid #7CDAF9;
-        color: #212529;
-    }
+	.wrap_product [name=btn_container] [name=blue]:hover {
+		background: $blue;
+		box-shadow: $boxShadowBlue;
+		border: 2px solid $blue;
+		color: #212529;
+	}
 
-    #storage [name=btn_container] [name=blue]:active {
-        background: transparent;
-        box-shadow: none;
-        border: 2px solid #22B3E3;
-        color: #22B3E3;
-    }
+	.wrap_product [name=btn_container] [name=blue]:active {
+		background: transparent;
+		box-shadow: none;
+		border: 2px solid $lowBlue;
+		color: $lowBlue;
+	}
 
-    #storage [name=btn_container] [name=blue]:disabled {
-        background: transparent;
-        border: 2px solid #4C5865;
-        color:#4C5865;
-    }
+	.wrap_product [name=btn_container] [name=blue]:disabled {
+		background: transparent;
+		border: 2px solid #4C5865;
+		color:#4C5865;
+	}
 </style>

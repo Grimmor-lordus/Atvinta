@@ -1,0 +1,28 @@
+@import "./variables.scss";
+
+.create_biorobot {
+    background-color: transparent;
+    height: 48px;
+    width: 236px;
+    border: 2px solid $orangePrimary;
+    box-sizing: border-box;
+    border-radius: 60px;
+    color: #fff;
+    font-family: $font;
+    font-size: 16px;
+    font-weight: 600;
+    &:hover {
+        background: $orangePrimary;
+        border: none;
+    }
+    &:active {
+        background: $orangeSecondary;
+        border: 2px solid $orangeSecondary;
+        box-sizing: border-box;
+    }
+    &disabled {
+        background: transparent;
+        border: 2px solid #4C5865;
+        color:#4C5865;
+    }
+}
